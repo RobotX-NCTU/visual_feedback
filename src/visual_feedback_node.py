@@ -7,9 +7,9 @@ from std_msgs.msg import Bool
 
 
 
-class GPIONode(object):
+class VisualFeedback(object):
   def __init__(self):
-    self.node_name = "GPIO"
+    self.node_name = "visual_feedback"
 
     self.pins = [4, 17, 27, 22, 20]    
     self.gpio_no = self.pins #gpio_no
@@ -25,11 +25,20 @@ class GPIONode(object):
     GPIO.setup(self.gpio_no, GPIO.OUT)
     #signal.signal(signal.SIGINT, self.dtor)
 
+    for pin in self.pins:
+      GPIO.output(pin, 0)
+
+    self.reset()
+
     GPIO.output(20, 0)
+
+  def reset(self):
+    for pin in self.pins:
+      GPIO.output(pin, 1)
 
   def cbRed(self, msg):
     data = 0 if msg.data==True else 1
-    GPIO.output(self.pins[4], data)
+    GPIO.output(self.pins[0], data)
     
   def cbYellow(self, msg):
     data = 0 if msg.data==True else 1
@@ -44,12 +53,13 @@ class GPIONode(object):
     GPIO.output(self.pins[3], data)
 
   def onShutdown(self):
+    self.reset()
     GPIO.cleanup()
-    rospy.loginfo("[GPIONode] Shutdown.")
+    rospy.loginfo("[Visual Feedback] Shutdown.")
 
 
 if __name__ == '__main__':
-  rospy.init_node('GPIO', anonymous=False)
-  gpio_node = GPIONode()
-  rospy.on_shutdown(gpio_node.onShutdown)
+  rospy.init_node('visual_feedback', anonymous=False)
+  visual_feedback_node = VisualFeedback()
+  rospy.on_shutdown(visual_feedback_node.onShutdown)
   rospy.spin()

@@ -1,8 +1,8 @@
 <launch>
   <arg name="veh" doc="Name of vehicle. ex: nibot"/>
-  <arg name="local" defalut="false" doc="true for laptop. false for robot/>
+  <arg name="local" default="false" doc="true for laptop. false for robot"/>
 
-  <arg name="pkg_name" default="visual_fb"/>
+  <arg name="pkg_name" default="visual_feedback"/>
   <arg name="node_name" default="visual_feedback_node"/>
 
   <!-- run local -->
