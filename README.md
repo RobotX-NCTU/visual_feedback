@@ -2,6 +2,13 @@
 Led Array for robotx competition. There are red, yellow, green, and buzzer on the visual feedback.
 
 ## How to setup
+### Hardware
+1. Raspberry Pi 3
+2. 5VDC Relay Array
+
+![hardware setup](https://github.com/RobotX-NCTU/visual_feedback/blob/master/hardware%20setup.jpg)
+
+### Software
 ``` 
 cd ~/robotx/catkin_ws/src
 git clone https://github.com/RobotX-NCTU/visual_feedback.git
