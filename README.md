@@ -1,5 +1,5 @@
 # visual_feedback
-Led Array
+Led Array for robotx competition. There are red, yellow, green, and buzzer on the visual feedback.
 
 ## How to setup
 ``` 
@@ -10,22 +10,21 @@ git clone https://github.com/RobotX-NCTU/visual_feedback.git
 ## catkin_make
 
 ```
-#cd ~/robotx
-#source environment.sh
 source /opt/ros/kinetic/setup.bash
 cd ~/robotx/catkin_ws
 catkin_make
-source ~/robotx/catkin_ws/devel/setup.bash
 ```
 
 ## How to run
 
 ```
 cd ~/robotx
-source environment.sh
-byobu
-rosrun
-rosrun visual_fb gpio_node.py
+source /opt/ros/kinetic/setup.bash
+source ~/robotx/catkin_ws/devel/setup.bash
+roslaunch visual_feedback visual_feedback_node.launch
+
+rostopic pub /visual_feedback_node/visual_fb_[red] std_msgs/Bool "data: true"
+[] could be "red", "green", "yellow", "bz"
 ```
 
 ## Error List
