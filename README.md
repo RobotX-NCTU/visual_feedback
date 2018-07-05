@@ -13,6 +13,7 @@ Led Array for robotx competition. There are red, yellow, green, and buzzer on th
 
 ### Software
 ``` 
+mkdir -p ~/robotx/catkin_ws/src
 cd ~/robotx/catkin_ws/src
 git clone https://github.com/RobotX-NCTU/visual_feedback.git
 ```
