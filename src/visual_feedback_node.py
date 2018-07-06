@@ -11,7 +11,7 @@ class VisualFeedback(object):
   def __init__(self):
     self.node_name = "visual_feedback"
 
-    self.pins = [4, 17, 27, 22, 20]    
+    self.pins = [4, 17, 27, 22, 21]    
     self.gpio_no = self.pins #gpio_no
 
     # Subscribers
@@ -23,34 +23,35 @@ class VisualFeedback(object):
     # Initial gpio and attach SIGINT event. 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(self.gpio_no, GPIO.OUT)
-    #signal.signal(signal.SIGINT, self.dtor)
 
     for pin in self.pins:
-      GPIO.output(pin, 0)
+      self.setLed(pin, 1)
+
+    rospy.sleep(1)
 
     self.reset()
 
-    GPIO.output(20, 0)
+    GPIO.output(21, 0)
 
   def reset(self):
     for pin in self.pins:
       GPIO.output(pin, 1)
 
+  def setLed(self, pin, on): 
+    data = 0 if on==True else 1
+    GPIO.output(pin, data)
+
   def cbRed(self, msg):
-    data = 0 if msg.data==True else 1
-    GPIO.output(self.pins[0], data)
-    
+    self.setLed(self.pins[0], msg.data)
+ 
   def cbYellow(self, msg):
-    data = 0 if msg.data==True else 1
-    GPIO.output(self.pins[1], data)
+    self.setLed(self.pins[1], msg.data)
 
   def cbGreen(self, msg):
-    data = 0 if msg.data==True else 1
-    GPIO.output(self.pins[2], data)
+    self.setLed(self.pins[2], msg.data)
 
   def cbBz(self, msg):
-    data = 0 if msg.data==True else 1
-    GPIO.output(self.pins[3], data)
+    self.setLed(self.pins[3], msg.data)
 
   def onShutdown(self):
     self.reset()
