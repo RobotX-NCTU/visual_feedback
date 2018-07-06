@@ -6,10 +6,14 @@ Led Array for robotx competition. There are red, yellow, green, and buzzer on th
 1. Raspberry Pi 3
 2. 5VDC Relay Array
 
-![hardware setup](https://github.com/RobotX-NCTU/visual_feedback/blob/master/hardware%20setup.jpg)
+![hardware setup](https://github.com/RobotX-NCTU/visual_feedback/blob/master/.imgs/hardware%20setup.jpg)
+
+<!--![Raspberry Pi 3 GPIO](https://github.com/RobotX-NCTU/visual_feedback/blob/master/.imgs/rpi3%20gpio.png) -->
+
 
 ### Software
 ``` 
+mkdir -p ~/robotx/catkin_ws/src
 cd ~/robotx/catkin_ws/src
 git clone https://github.com/RobotX-NCTU/visual_feedback.git
 ```
