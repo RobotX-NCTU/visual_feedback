@@ -48,6 +48,10 @@ rostopic pub /visual_feedback_node/visual_fb_[red] std_msgs/Bool "data: true"
 ```
 
 ## Error List
-
+### RPi.GPIO need sudo
+```
+sudo adduser "username" gpio
+sudo reboot
+```
 
  
