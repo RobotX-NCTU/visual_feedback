@@ -27,7 +27,7 @@ class VisualFeedback(object):
         self.sub_red = rospy.Subscriber("~visual_fb_red", Bool, self.cbRed, queue_size=1)
         self.sub_yellow = rospy.Subscriber("~visual_fb_yellow", Bool, self.cbYellow, queue_size=1)
         self.sub_green = rospy.Subscriber("~visual_fb_green", Bool, self.cbGreen, queue_size=1)
-        self.sub_mode = rospy.Subscriber("~mode", Int32, self.cbMode, queue_size=1)
+        self.sub_mode = rospy.Subscriber("/mode", Int32, self.cbMode, queue_size=1)
 
     def detectEmergency(self, event):
         if (GPIO.input(21) == 1):
