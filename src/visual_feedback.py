@@ -13,14 +13,16 @@ class VisualFeedback(object):
 
         # Initial gpio and attach SIGINT event. 
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.gpio_no, GPIO.OUT)
+        GPIO.setup(self.output_pins, GPIO.OUT)
         GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        
-        rospy.sleep(1)
+
+   
+        #rospy.sleep(1)
         self.turnOnAll()
+        rospy.sleep(2)
         self.clearAll()
         rospy.sleep(1)
-
+        print "Start Working"
         rospy.Timer(rospy.Duration(0.5), self.detectEmergency)
 
         # Subscribers
@@ -36,20 +38,25 @@ class VisualFeedback(object):
             self.setLed(self.output_pins[0], False)
 
     def cbMode(self, msg):
-        if (msg.mode == 0): # Joystick => Yellow
+        if (msg.data == 0): # Joystick => Yellow
             self.setLed(self.output_pins[2], False)
             self.setLed(self.output_pins[1], True)
-        elif (msg.mode == 1): # Autonomous => Green
+        elif (msg.data == 1): # Autonomous => Green
             self.setLed(self.output_pins[1], False)
             self.setLed(self.output_pins[2], True)
 
     def turnOnAll(self):
         for pin in self.output_pins:
-            GPIO.output(pin, 1)
+            self.setLed(pin, 1)
+            rospy.sleep(0.2)
+            print ("On: ", pin)
 
     def clearAll(self):
         for pin in self.output_pins:
-            GPIO.output(pin, 0)
+            self.setLed(pin, 0)
+            rospy.sleep(0.2)
+            print ("Off: ", pin)
+        print("Clear all")
 
     def setLed(self, pin, on): 
         data = 0 if on==True else 1
