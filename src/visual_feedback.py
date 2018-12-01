@@ -9,13 +9,13 @@ class VisualFeedback(object):
     def __init__(self):
         self.node_name = "visual_feedback"
 
-        self.output_pins = [4, 17, 27, 22] # red, yellow, green, nothing
+        self.output_pins = [17, 27, 22] #red, yellow, green
 
         # Initial gpio and attach SIGINT event. 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.output_pins, GPIO.OUT)
-        GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
+        GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        self.record = 0
    
         #rospy.sleep(1)
         self.turnOnAll()
@@ -32,18 +32,29 @@ class VisualFeedback(object):
         self.sub_mode = rospy.Subscriber("/mode", Int32, self.cbMode, queue_size=1)
 
     def detectEmergency(self, event):
-        if (GPIO.input(21) == 1):
+        if (GPIO.input(13) == 0):
             self.setLed(self.output_pins[0], True)
+            self.setLed(self.output_pins[1], False)
+            self.setLed(self.output_pins[2], False)
         else:
             self.setLed(self.output_pins[0], False)
+            if self.record is 0:
+                self.setLed(self.output_pins[2], False)
+                self.setLed(self.output_pins[1], True)
+            else:
+                self.setLed(self.output_pins[1], False)
+                self.setLed(self.output_pins[2], True)
+
 
     def cbMode(self, msg):
         if (msg.data == 0): # Joystick => Yellow
             self.setLed(self.output_pins[2], False)
             self.setLed(self.output_pins[1], True)
+            self.record = 0
         elif (msg.data == 1): # Autonomous => Green
             self.setLed(self.output_pins[1], False)
             self.setLed(self.output_pins[2], True)
+            self.record = 1
 
     def turnOnAll(self):
         for pin in self.output_pins:
